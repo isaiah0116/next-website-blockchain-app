@@ -15,12 +15,6 @@ export default function Home() {
 
   const ABI = [
     {
-      inputs: [],
-      payable: false,
-      stateMutability: "nonpayable",
-      type: "constructor",
-    },
-    {
       anonymous: false,
       inputs: [
         {
@@ -54,7 +48,12 @@ export default function Home() {
           name: "from",
           type: "address",
         },
-        { indexed: true, internalType: "address", name: "to", type: "address" },
+        {
+          indexed: true,
+          internalType: "address",
+          name: "to",
+          type: "address",
+        },
         {
           indexed: false,
           internalType: "uint256",
@@ -66,44 +65,52 @@ export default function Home() {
       type: "event",
     },
     {
-      constant: true,
-      inputs: [],
-      name: "InsuranceAddress",
-      outputs: [{ internalType: "address", name: "", type: "address" }],
-      payable: false,
-      stateMutability: "view",
-      type: "function",
-    },
-    {
       constant: false,
       inputs: [
-        { internalType: "uint256", name: "age", type: "uint256" },
-        { internalType: "uint256", name: "ChildrenCovered", type: "uint256" },
+        {
+          internalType: "uint256",
+          name: "age",
+          type: "uint256",
+        },
+        {
+          internalType: "uint256",
+          name: "ChildrenCovered",
+          type: "uint256",
+        },
       ],
       name: "TestifInsurable",
-      outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+      outputs: [
+        {
+          internalType: "uint256",
+          name: "",
+          type: "uint256",
+        },
+      ],
       payable: false,
       stateMutability: "nonpayable",
       type: "function",
     },
     {
       constant: true,
-      inputs: [],
-      name: "_totalSupply",
-      outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
-      payable: false,
-      stateMutability: "view",
-      type: "function",
-    },
-    {
-      constant: true,
       inputs: [
-        { internalType: "address", name: "tokenOwner", type: "address" },
-        { internalType: "address", name: "spender", type: "address" },
+        {
+          internalType: "address",
+          name: "tokenOwner",
+          type: "address",
+        },
+        {
+          internalType: "address",
+          name: "spender",
+          type: "address",
+        },
       ],
       name: "allowance",
       outputs: [
-        { internalType: "uint256", name: "remaining", type: "uint256" },
+        {
+          internalType: "uint256",
+          name: "remaining",
+          type: "uint256",
+        },
       ],
       payable: false,
       stateMutability: "view",
@@ -112,11 +119,25 @@ export default function Home() {
     {
       constant: false,
       inputs: [
-        { internalType: "address", name: "spender", type: "address" },
-        { internalType: "uint256", name: "tokens", type: "uint256" },
+        {
+          internalType: "address",
+          name: "spender",
+          type: "address",
+        },
+        {
+          internalType: "uint256",
+          name: "tokens",
+          type: "uint256",
+        },
       ],
       name: "approve",
-      outputs: [{ internalType: "bool", name: "success", type: "bool" }],
+      outputs: [
+        {
+          internalType: "bool",
+          name: "success",
+          type: "bool",
+        },
+      ],
       payable: false,
       stateMutability: "nonpayable",
       type: "function",
@@ -124,19 +145,41 @@ export default function Home() {
     {
       constant: true,
       inputs: [
-        { internalType: "address", name: "tokenOwner", type: "address" },
+        {
+          internalType: "address",
+          name: "tokenOwner",
+          type: "address",
+        },
       ],
       name: "balanceOf",
-      outputs: [{ internalType: "uint256", name: "balance", type: "uint256" }],
+      outputs: [
+        {
+          internalType: "uint256",
+          name: "balance",
+          type: "uint256",
+        },
+      ],
       payable: false,
       stateMutability: "view",
       type: "function",
     },
     {
       constant: false,
-      inputs: [{ internalType: "uint256", name: "value", type: "uint256" }],
+      inputs: [
+        {
+          internalType: "uint256",
+          name: "value",
+          type: "uint256",
+        },
+      ],
       name: "burn",
-      outputs: [{ internalType: "bool", name: "success", type: "bool" }],
+      outputs: [
+        {
+          internalType: "bool",
+          name: "success",
+          type: "bool",
+        },
+      ],
       payable: false,
       stateMutability: "nonpayable",
       type: "function",
@@ -144,113 +187,76 @@ export default function Home() {
     {
       constant: false,
       inputs: [
-        { internalType: "address", name: "from", type: "address" },
-        { internalType: "uint256", name: "value", type: "uint256" },
+        {
+          internalType: "address",
+          name: "from",
+          type: "address",
+        },
+        {
+          internalType: "uint256",
+          name: "value",
+          type: "uint256",
+        },
       ],
       name: "burnfrom",
-      outputs: [{ internalType: "bool", name: "success", type: "bool" }],
+      outputs: [
+        {
+          internalType: "bool",
+          name: "success",
+          type: "bool",
+        },
+      ],
       payable: false,
       stateMutability: "nonpayable",
       type: "function",
     },
     {
       constant: false,
-      inputs: [{ internalType: "address", name: "from", type: "address" }],
+      inputs: [
+        {
+          internalType: "address",
+          name: "from",
+          type: "address",
+        },
+      ],
       name: "collectInsuranceFunds",
-      outputs: [{ internalType: "bool", name: "success", type: "bool" }],
+      outputs: [
+        {
+          internalType: "bool",
+          name: "success",
+          type: "bool",
+        },
+      ],
       payable: false,
       stateMutability: "nonpayable",
-      type: "function",
-    },
-    {
-      constant: true,
-      inputs: [],
-      name: "decimals",
-      outputs: [{ internalType: "uint8", name: "", type: "uint8" }],
-      payable: false,
-      stateMutability: "view",
-      type: "function",
-    },
-    {
-      constant: true,
-      inputs: [],
-      name: "name",
-      outputs: [{ internalType: "string", name: "", type: "string" }],
-      payable: false,
-      stateMutability: "view",
-      type: "function",
-    },
-    {
-      constant: true,
-      inputs: [],
-      name: "premium",
-      outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
-      payable: false,
-      stateMutability: "view",
       type: "function",
     },
     {
       constant: true,
       inputs: [],
       name: "returnPremium",
-      outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+      outputs: [
+        {
+          internalType: "uint256",
+          name: "",
+          type: "uint256",
+        },
+      ],
       payable: false,
       stateMutability: "view",
       type: "function",
     },
     {
       constant: true,
-      inputs: [
-        { internalType: "uint256", name: "a", type: "uint256" },
-        { internalType: "uint256", name: "b", type: "uint256" },
-      ],
-      name: "safeAdd",
-      outputs: [{ internalType: "uint256", name: "c", type: "uint256" }],
-      payable: false,
-      stateMutability: "pure",
-      type: "function",
-    },
-    {
-      constant: true,
-      inputs: [
-        { internalType: "uint256", name: "a", type: "uint256" },
-        { internalType: "uint256", name: "b", type: "uint256" },
-      ],
-      name: "safeDiv",
-      outputs: [{ internalType: "uint256", name: "c", type: "uint256" }],
-      payable: false,
-      stateMutability: "pure",
-      type: "function",
-    },
-    {
-      constant: true,
-      inputs: [
-        { internalType: "uint256", name: "a", type: "uint256" },
-        { internalType: "uint256", name: "b", type: "uint256" },
-      ],
-      name: "safeMul",
-      outputs: [{ internalType: "uint256", name: "c", type: "uint256" }],
-      payable: false,
-      stateMutability: "pure",
-      type: "function",
-    },
-    {
-      constant: true,
-      inputs: [
-        { internalType: "uint256", name: "a", type: "uint256" },
-        { internalType: "uint256", name: "b", type: "uint256" },
-      ],
-      name: "safeSub",
-      outputs: [{ internalType: "uint256", name: "c", type: "uint256" }],
-      payable: false,
-      stateMutability: "pure",
-      type: "function",
-    },
-    {
-      constant: true,
       inputs: [],
-      name: "symbol",
-      outputs: [{ internalType: "string", name: "", type: "string" }],
+      name: "returnStringPremium",
+      outputs: [
+        {
+          internalType: "string",
+          name: "",
+          type: "string",
+        },
+      ],
       payable: false,
       stateMutability: "view",
       type: "function",
@@ -259,7 +265,13 @@ export default function Home() {
       constant: true,
       inputs: [],
       name: "totalSupply",
-      outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+      outputs: [
+        {
+          internalType: "uint256",
+          name: "",
+          type: "uint256",
+        },
+      ],
       payable: false,
       stateMutability: "view",
       type: "function",
@@ -267,11 +279,25 @@ export default function Home() {
     {
       constant: false,
       inputs: [
-        { internalType: "address", name: "to", type: "address" },
-        { internalType: "uint256", name: "tokens", type: "uint256" },
+        {
+          internalType: "address",
+          name: "to",
+          type: "address",
+        },
+        {
+          internalType: "uint256",
+          name: "tokens",
+          type: "uint256",
+        },
       ],
       name: "transfer",
-      outputs: [{ internalType: "bool", name: "success", type: "bool" }],
+      outputs: [
+        {
+          internalType: "bool",
+          name: "success",
+          type: "bool",
+        },
+      ],
       payable: false,
       stateMutability: "nonpayable",
       type: "function",
@@ -279,17 +305,39 @@ export default function Home() {
     {
       constant: false,
       inputs: [
-        { internalType: "address", name: "from", type: "address" },
-        { internalType: "address", name: "to", type: "address" },
-        { internalType: "uint256", name: "tokens", type: "uint256" },
+        {
+          internalType: "address",
+          name: "from",
+          type: "address",
+        },
+        {
+          internalType: "address",
+          name: "to",
+          type: "address",
+        },
+        {
+          internalType: "uint256",
+          name: "tokens",
+          type: "uint256",
+        },
       ],
       name: "transferFrom",
-      outputs: [{ internalType: "bool", name: "success", type: "bool" }],
+      outputs: [
+        {
+          internalType: "bool",
+          name: "success",
+          type: "bool",
+        },
+      ],
       payable: false,
       stateMutability: "nonpayable",
       type: "function",
     },
   ];
+
+  const smartContractAddress = "0x815bEdD0dfe9d512Cb281cD1c44dc0E09726de66";
+  //const addressToPay = "0x03EccF8BEAA8d5BD46A196c6b48584fD80B7546F";
+  const myEthAddress = "0x03EccF8BEAA8d5BD46A196c6b48584fD80B7546F";
 
   async function login() {
     let user = Moralis.User.current();
@@ -312,7 +360,7 @@ export default function Home() {
 
   async function calcInitialPremium() {
     let options = {
-      contractAddress: "0x7F078Fa33b2c8c62AAEE0E68480d722fabe621F5",
+      contractAddress: smartContractAddress,
       functionName: "TestifInsurable",
       abi: ABI,
       params: {
@@ -322,7 +370,33 @@ export default function Home() {
     };
     //await Moralis.User.logOut();
     //await login();
-    await Moralis.executeFunction(options);
+    const transaction = await Moralis.executeFunction(options);
+    console.log("transaction: ");
+    console.log(transaction);
+    const result = await transaction.wait();
+
+    let returnPremiumOptions = {
+      contractAddress: smartContractAddress,
+      functionName: "returnStringPremium",
+      abi: ABI,
+    };
+
+    const message = await Moralis.executeFunction(returnPremiumOptions);
+    console.log(message);
+
+    let payOptions = {
+      contractAddress: smartContractAddress,
+      functionName: "collectInsuranceFunds",
+      abi: ABI,
+      params: {
+        from: myEthAddress,
+      },
+    };
+
+    const newTransaction = await Moralis.executeFunction(payOptions);
+    console.log("transaction: ");
+    console.log(transaction);
+    const newResult = await transaction.wait();
   }
 
   return (
