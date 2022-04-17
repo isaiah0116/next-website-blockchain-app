@@ -1,347 +1,26 @@
-import Head from "next/head";
-import Image from "next/image";
-import styles from "../styles/Home.module.css";
 import { useState } from "react";
-import { Container, Group, Slider, Text } from "@mantine/core";
+import { Container, Group, LoadingOverlay, Slider, Text } from "@mantine/core";
 import { Title } from "@mantine/core";
 import { AppShell, Navbar, Header } from "@mantine/core";
 import { Button } from "@mantine/core";
 import Moralis from "moralis";
 import { useEffect } from "react";
+import {
+  moralisAppID as appId,
+  moralisServerURL as serverUrl,
+  contractAddress,
+  contractABI as ABI,
+} from "../config";
 
 export default function Home() {
   const [age, setAge] = useState(40);
   const [children, setChildren] = useState(0);
+  const [loading, setLoading] = useState(false);
+  const [premium, setPremium] = useState("");
 
-  const ABI = [
-    {
-      anonymous: false,
-      inputs: [
-        {
-          indexed: true,
-          internalType: "address",
-          name: "tokenOwner",
-          type: "address",
-        },
-        {
-          indexed: true,
-          internalType: "address",
-          name: "spender",
-          type: "address",
-        },
-        {
-          indexed: false,
-          internalType: "uint256",
-          name: "tokens",
-          type: "uint256",
-        },
-      ],
-      name: "Approval",
-      type: "event",
-    },
-    {
-      anonymous: false,
-      inputs: [
-        {
-          indexed: true,
-          internalType: "address",
-          name: "from",
-          type: "address",
-        },
-        {
-          indexed: true,
-          internalType: "address",
-          name: "to",
-          type: "address",
-        },
-        {
-          indexed: false,
-          internalType: "uint256",
-          name: "tokens",
-          type: "uint256",
-        },
-      ],
-      name: "Transfer",
-      type: "event",
-    },
-    {
-      constant: false,
-      inputs: [
-        {
-          internalType: "uint256",
-          name: "age",
-          type: "uint256",
-        },
-        {
-          internalType: "uint256",
-          name: "ChildrenCovered",
-          type: "uint256",
-        },
-      ],
-      name: "TestifInsurable",
-      outputs: [
-        {
-          internalType: "uint256",
-          name: "",
-          type: "uint256",
-        },
-      ],
-      payable: false,
-      stateMutability: "nonpayable",
-      type: "function",
-    },
-    {
-      constant: true,
-      inputs: [
-        {
-          internalType: "address",
-          name: "tokenOwner",
-          type: "address",
-        },
-        {
-          internalType: "address",
-          name: "spender",
-          type: "address",
-        },
-      ],
-      name: "allowance",
-      outputs: [
-        {
-          internalType: "uint256",
-          name: "remaining",
-          type: "uint256",
-        },
-      ],
-      payable: false,
-      stateMutability: "view",
-      type: "function",
-    },
-    {
-      constant: false,
-      inputs: [
-        {
-          internalType: "address",
-          name: "spender",
-          type: "address",
-        },
-        {
-          internalType: "uint256",
-          name: "tokens",
-          type: "uint256",
-        },
-      ],
-      name: "approve",
-      outputs: [
-        {
-          internalType: "bool",
-          name: "success",
-          type: "bool",
-        },
-      ],
-      payable: false,
-      stateMutability: "nonpayable",
-      type: "function",
-    },
-    {
-      constant: true,
-      inputs: [
-        {
-          internalType: "address",
-          name: "tokenOwner",
-          type: "address",
-        },
-      ],
-      name: "balanceOf",
-      outputs: [
-        {
-          internalType: "uint256",
-          name: "balance",
-          type: "uint256",
-        },
-      ],
-      payable: false,
-      stateMutability: "view",
-      type: "function",
-    },
-    {
-      constant: false,
-      inputs: [
-        {
-          internalType: "uint256",
-          name: "value",
-          type: "uint256",
-        },
-      ],
-      name: "burn",
-      outputs: [
-        {
-          internalType: "bool",
-          name: "success",
-          type: "bool",
-        },
-      ],
-      payable: false,
-      stateMutability: "nonpayable",
-      type: "function",
-    },
-    {
-      constant: false,
-      inputs: [
-        {
-          internalType: "address",
-          name: "from",
-          type: "address",
-        },
-        {
-          internalType: "uint256",
-          name: "value",
-          type: "uint256",
-        },
-      ],
-      name: "burnfrom",
-      outputs: [
-        {
-          internalType: "bool",
-          name: "success",
-          type: "bool",
-        },
-      ],
-      payable: false,
-      stateMutability: "nonpayable",
-      type: "function",
-    },
-    {
-      constant: false,
-      inputs: [
-        {
-          internalType: "address",
-          name: "from",
-          type: "address",
-        },
-      ],
-      name: "collectInsuranceFunds",
-      outputs: [
-        {
-          internalType: "bool",
-          name: "success",
-          type: "bool",
-        },
-      ],
-      payable: false,
-      stateMutability: "nonpayable",
-      type: "function",
-    },
-    {
-      constant: true,
-      inputs: [],
-      name: "returnPremium",
-      outputs: [
-        {
-          internalType: "uint256",
-          name: "",
-          type: "uint256",
-        },
-      ],
-      payable: false,
-      stateMutability: "view",
-      type: "function",
-    },
-    {
-      constant: true,
-      inputs: [],
-      name: "returnStringPremium",
-      outputs: [
-        {
-          internalType: "string",
-          name: "",
-          type: "string",
-        },
-      ],
-      payable: false,
-      stateMutability: "view",
-      type: "function",
-    },
-    {
-      constant: true,
-      inputs: [],
-      name: "totalSupply",
-      outputs: [
-        {
-          internalType: "uint256",
-          name: "",
-          type: "uint256",
-        },
-      ],
-      payable: false,
-      stateMutability: "view",
-      type: "function",
-    },
-    {
-      constant: false,
-      inputs: [
-        {
-          internalType: "address",
-          name: "to",
-          type: "address",
-        },
-        {
-          internalType: "uint256",
-          name: "tokens",
-          type: "uint256",
-        },
-      ],
-      name: "transfer",
-      outputs: [
-        {
-          internalType: "bool",
-          name: "success",
-          type: "bool",
-        },
-      ],
-      payable: false,
-      stateMutability: "nonpayable",
-      type: "function",
-    },
-    {
-      constant: false,
-      inputs: [
-        {
-          internalType: "address",
-          name: "from",
-          type: "address",
-        },
-        {
-          internalType: "address",
-          name: "to",
-          type: "address",
-        },
-        {
-          internalType: "uint256",
-          name: "tokens",
-          type: "uint256",
-        },
-      ],
-      name: "transferFrom",
-      outputs: [
-        {
-          internalType: "bool",
-          name: "success",
-          type: "bool",
-        },
-      ],
-      payable: false,
-      stateMutability: "nonpayable",
-      type: "function",
-    },
-  ];
-
-  const smartContractAddress = "0x815bEdD0dfe9d512Cb281cD1c44dc0E09726de66";
-  //const addressToPay = "0x03EccF8BEAA8d5BD46A196c6b48584fD80B7546F";
-  const myEthAddress = "0x03EccF8BEAA8d5BD46A196c6b48584fD80B7546F";
-
+  // authenticate Moralis with Metamask. so we can execute smart contracts with Moralis later
   async function login() {
     let user = Moralis.User.current();
-    //console.log(user);
     try {
       user = await Moralis.authenticate({ signingMessage: "Authenticate" });
       console.log(user);
@@ -351,16 +30,19 @@ export default function Home() {
     }
   }
 
+  // Hook runs as soon as website loads, requesting user to log in with Metamask
   useEffect(() => {
-    const serverUrl = "https://x3ndg09zcrzz.usemoralis.com:2053/server";
-    const appId = "HPqe3okZh1D0Yrzi7tydb8Yqq6T0WFJaXipvu0iA";
-    Moralis.start({ serverUrl, appId });
+    Moralis.start({ appId, serverUrl });
     login();
   }, []);
 
-  async function calcInitialPremium() {
-    let options = {
-      contractAddress: smartContractAddress,
+  async function calculatePremium() {
+    console.log("Age: " + age);
+    console.log("ChildrenCovered: " + children);
+    // Pass in age and number of children covered to TestifInsurable smart contract function.
+    // This computes a premium amount, if they can be covered
+    let testIfInsurable = {
+      contractAddress: contractAddress,
       functionName: "TestifInsurable",
       abi: ABI,
       params: {
@@ -368,36 +50,63 @@ export default function Home() {
         ChildrenCovered: children,
       },
     };
-    //await Moralis.User.logOut();
-    //await login();
-    const transaction = await Moralis.executeFunction(options);
-    console.log("transaction: ");
-    console.log(transaction);
+    // Start executing the contract, can take ~60 seconds
+    const transaction = await Moralis.executeFunction(testIfInsurable);
+
+    // set state to loading to have user wait for premium to return
+    setLoading(true);
+
+    // wait for contract to be finished.  so that we can get the premium
     const result = await transaction.wait();
 
-    let returnPremiumOptions = {
-      contractAddress: smartContractAddress,
+    let getPremium = {
+      contractAddress: contractAddress,
       functionName: "returnStringPremium",
       abi: ABI,
     };
 
-    const message = await Moralis.executeFunction(returnPremiumOptions);
-    console.log(message);
+    // Call another smart contract to return premium as a string (hotfix)
+    const premium = await Moralis.executeFunction(getPremium);
+    console.log(premium);
 
-    let payOptions = {
-      contractAddress: smartContractAddress,
-      functionName: "collectInsuranceFunds",
-      abi: ABI,
-      params: {
-        from: myEthAddress,
-      },
-    };
-
-    const newTransaction = await Moralis.executeFunction(payOptions);
-    console.log("transaction: ");
-    console.log(transaction);
-    const newResult = await transaction.wait();
+    // set state with premium to ask user to pay
+    setLoading(false);
+    setPremium(premium);
   }
+
+  const StartPage = () => {
+    return (
+      <Container>
+        <LoadingOverlay visible={loading} />
+        <Group direction="row" grow>
+          <Text size="md">Age</Text>
+          <Slider min={18} max={100} value={age} onChange={setAge} />
+        </Group>
+
+        <Group direction="row" grow>
+          <Text size="md">Number of dependents covered by insurance plan</Text>
+          <Slider min={0} max={10} value={children} onChange={setChildren} />
+        </Group>
+
+        <Button onClick={calculatePremium}>Submit</Button>
+      </Container>
+    );
+  };
+
+  const CollectPremiumPage = () => {
+    return (
+      <Container>
+        <Group spacing="lg" grow direction="column">
+          <Title order={1}>Required Premium: {premium} NEOH</Title>
+          <Title order={4}>
+            For 1 adult (age {age}) and {children} dependents
+          </Title>
+          <Title order={3}>Payable to the following ETH address: </Title>
+          <Title order={2}>0x1154c78e66ca0289639d9e20b31E813a4AE5f3C9</Title>
+        </Group>
+      </Container>
+    );
+  };
 
   return (
     <AppShell
@@ -413,19 +122,7 @@ export default function Home() {
         </Header>
       }
     >
-      <Container>
-        <Group direction="row" grow>
-          <Text size="md">Age</Text>
-          <Slider min={18} max={100} value={age} onChange={setAge} />
-        </Group>
-
-        <Group direction="row" grow>
-          <Text size="md">Number of dependents covered by insurance plan</Text>
-          <Slider min={0} max={10} value={children} onChange={setChildren} />
-        </Group>
-
-        <Button onClick={calcInitialPremium}>Submit</Button>
-      </Container>
+      {premium === "" ? <StartPage /> : <CollectPremiumPage />}
     </AppShell>
   );
 }

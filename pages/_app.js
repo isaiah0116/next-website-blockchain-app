@@ -1,15 +1,13 @@
-import '../styles/globals.css'
+import "../styles/globals.css";
 import { MoralisProvider } from "react-moralis";
+import { moralisAppID, moralisServerURL } from "../config";
 
 function MyApp({ Component, pageProps }) {
   return (
-    <MoralisProvider
-      appId={"HPqe3okZh1D0Yrzi7tydb8Yqq6T0WFJaXipvu0iA"} //process.env.NEXT_PUBLIC_APP_ID
-      serverUrl={"https://x3ndg09zcrzz.usemoralis.com:2053/server"} //process.env.NEXT_PUBLIC_SERVER_URL
-    >
+    <MoralisProvider appId={moralisAppID} serverUrl={moralisServerURL}>
       <Component {...pageProps} />
     </MoralisProvider>
-  );  
+  );
 }
 
-export default MyApp
+export default MyApp;
